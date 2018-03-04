@@ -1,0 +1,24 @@
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+  }
+
+  main {
+    flex: 1 0 auto;
+  }
+
+  .nav-wrapper .fa-bars{
+
+    font-size: 1.5rem;
+  }
+
+  footer{
+
+    margin-top:1.25rem;
+  }
+
+  .mt-20{
+
+    margin-top:30px;
+  }

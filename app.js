@@ -1,19 +1,46 @@
+
 const express = require('express');
+const path=require('path');
 const passport = require('passport');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const exphbs=require('express-handlebars');
+const bodyParser=require('body-parser');
 // const {User}=require('./models/User');
 
 require('./config/passport')(passport);
+// handlebars helpers
+const {truncate,stripTags}=require('./helpers/hbs');
+
 // const keys = require('./config/keys');
 
 
 
 //  load Routes
 const auth = require('./routes/auth');
+const index=require('./routes/index');
+const stories=require('./routes/stories');
+
+
+
 const app = express();
 const port = process.env.PORT || 3000;
+
+// handlebars middleware
+
+app.engine('handlebars',exphbs({
+    helpers:   {truncate:truncate,
+               stripTags:stripTags},
+    defaultLayout:'main'
+}));
+app.set('view engine','handlebars');
+
+// bodyParser middleware
+
+app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.json());
+
 
 app.use(cookieParser());
 app.use(session({
@@ -22,6 +49,10 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }));
+
+
+// static files middleware
+app.use(express.static(path.join(__dirname,'public')));
 
 // passport middleware
 
@@ -51,11 +82,9 @@ mongoose.connect(process.env.MONGODB_URI || keys.mongoURI)
 
 
 app.use('/auth', auth);
+app.use('/',index);
+app.use('/stories',stories);
 
-app.get('/', (req, res) => {
-
-    res.send('<h1> welcome to story books</h1>');
-});
 
 
 app.listen(port, () => {
