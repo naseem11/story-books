@@ -7,13 +7,14 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const exphbs=require('express-handlebars');
 const bodyParser=require('body-parser');
+const methodOverride=require('method-override');
 // const {User}=require('./models/User');
 
 require('./config/passport')(passport);
 // handlebars helpers
-const {truncate,stripTags}=require('./helpers/hbs');
+const {truncate,stripTags,formatDate,select,editIcon}=require('./helpers/hbs');
 
-// const keys = require('./config/keys');
+const keys = require('./config/keys');
 
 
 
@@ -30,11 +31,18 @@ const port = process.env.PORT || 3000;
 // handlebars middleware
 
 app.engine('handlebars',exphbs({
-    helpers:   {truncate:truncate,
-               stripTags:stripTags},
+    helpers: { truncate:truncate,
+                stripTags:stripTags,
+                formatDate:formatDate,
+                select:select ,
+                editIcon:editIcon
+            },
     defaultLayout:'main'
 }));
 app.set('view engine','handlebars');
+
+// Method override
+app.use(methodOverride('_method'));
 
 // bodyParser middleware
 
@@ -73,7 +81,7 @@ app.use((req, res, next) => {
 
 // mongoose connect
 // mongoose.Promise=global.Promise;
-mongoose.connect(process.env.MONGODB_URI || keys.mongoURI)
+mongoose.connect(keys.mongoURI)
     .then(() => {
 
         console.log('connected to database');

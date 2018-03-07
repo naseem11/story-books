@@ -6,29 +6,34 @@
             <div class="card-content center-align white-text">
                 <span class="card-title">{{title}}</span>
                 <div class="divider"></div>
-                <p >{{stripTags (truncate body 150)}}</p>
-               
+                <p class="story-text">{{stripTags (truncate body 250)}}</p>
+
             </div>
-           <div class="right-align"> <a href="/stories/show/{{id}}" class="btn ">Read more</a></div>
+            <div class="right-align">
+                <a href="/stories/show/{{id}}" class="btn  ">Read more</a>
+            </div>
             <div class="card-action">
 
                 <div class="chip">
-                    <img src="{{user.image}}"> {{user.firstName}}
+
+                    <img src="{{user.image}}">
+                    <a href="/stories/user/{{user.id}}" class="blue-text">
+                        {{user.firstName}} {{user.lastName}}
+                    </a>
 
                 </div>
-                {{#if user}}
+
                 <div class="right">
-                    
-                     <a class="btn-floating btn-medium waves-effect waves-light red" href="/stories/edit/{{id}}" title="edit story"><i class="fa fa-pencil"></i></a>
+                    {{#if user}} {{{editIcon user.id ../user.id id }}} {{/if}}
 
                 </div>
-                {{else}}
-               
-                {{/if}}
+
+
+
             </div>
         </div>
     </div>
     {{else}}
-    <p>No story found</p>
+    <p>No public story found</p>
     {{/each}}
 </div>

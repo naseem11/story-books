@@ -1,7 +1,7 @@
 const googleStrategy = require('passport-google-oauth20').Strategy;
 const mongoose = require('mongoose');
 const { User } = require('../models/User');
-//  const keys = require('./keys');
+  const keys = require('./keys');
 
 
 module.exports = function (passport) {
@@ -16,14 +16,14 @@ module.exports = function (passport) {
     }, (accessToken, refreshToken, profile, done) => {
 
         // console.log(accessToken);
-        //  console.log(profile);
+        //   console.log(profile);
         const image = profile.photos[0].value.slice(0, profile.photos[0].value.indexOf('?'));
         const newUser = {
 
             googleID: profile.id,
             email: profile.emails[0].value,
             firstName: profile.name.givenName,
-            lastName: profile.name.familyname,
+            lastName: profile.name.familyName,
             image: image
         }
 

@@ -22,3 +22,20 @@ body {
 
     margin-top:30px;
   }
+
+
+  .story-text{
+
+    height: 7rem; 
+  }
+
+  .status-text{
+
+    text-transform: capitalize;
+  }
+
+  #delete-form{
+    display: inline;
+  }
+
+ 
